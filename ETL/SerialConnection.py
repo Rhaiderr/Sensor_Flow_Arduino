@@ -49,17 +49,13 @@ class ETL(object):
 
 if __name__ == "__main__":
     from serial import Serial
-    import sqlite3
+    from ETL.SQL_Connection import *
     import pandas as pd
     from datetime import datetime
     from Serial_Read.ReadLine import ReadLine
-    from pathlib import Path
 
-    # Diretório raiz do projeto
-    root = Path("__file__").parent.absolute()
-
-    # Classe de gravação do banco de dados
-    read = ETL(connection=sqlite3.connect(fr"{root}\Database\sensores.db"), serial=Serial('COM6', 9600))
+    # Classe de gravação no banco de dados
+    read = ETL(connection=sql_conn(), serial=Serial('COM6', 9600))
 
     # inicia loop
     read.main()
