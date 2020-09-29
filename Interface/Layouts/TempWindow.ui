@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TempWindow</class>
+ <widget class="QMainWindow" name="TempWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>131</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Temperatura</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_3">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>20</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Relatório</string>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="graphicsView">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>80</y>
+      <width>631</width>
+      <height>471</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="lcdNumber">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>90</y>
+      <width>64</width>
+      <height>23</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -10,7 +10,7 @@ class ETL(object):
         self.serial = serial
 
     def serial_read(self):
-        """Realiza leitura da porta serial e grava informação no banco de dados"""
+        """ Realiza leitura da porta serial e grava informação no banco de dados"""
 
         # Leitura da linha
         rl = ReadLine(self.serial)
@@ -30,7 +30,7 @@ class ETL(object):
         # Grava informação de fluxo
         pd.DataFrame(
             {
-                "dt_processamento": [datetime.now()],
+                'dt_processamento': [datetime.now()],
                 'sen_vazao': [rl.readline().decode().replace("\r\n", "")]
             }
         ) \
@@ -49,7 +49,7 @@ class ETL(object):
 
 if __name__ == "__main__":
     from serial import Serial
-    from ETL.SQL_Connection import *
+    from ETL.SqlConnection import *
     import pandas as pd
     from datetime import datetime
     from Serial_Read.ReadLine import ReadLine

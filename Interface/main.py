@@ -16,18 +16,21 @@ import sys
 import os
 import random
 import matplotlib
+from Interface.Graphics import Temp, Flow
 
 
 class MyMplCanvas(FigureCanvas):
     """ QWidget com configurações de gráfico. """
 
     def __init__(self, parent=None, width=5, height=4, dpi=100):
-        fig = Figure(figsize=(width, height), dpi=dpi, constrained_layout=True)
-        self.axes = fig.add_subplot(1, 1, 1)
+        self.fig = Figure(figsize=(width, height), dpi=dpi, constrained_layout=False)
+        self.axes = self.fig.add_subplot(1, 1, 1)
+        self.temp_axes = Temp.temp_axes()
+        self.flow_axes = Flow.flow_axes()
 
         self.compute_initial_figure()
 
-        FigureCanvas.__init__(self, fig)
+        FigureCanvas.__init__(self, self.fig)
         self.setParent(parent)
 
         FigureCanvas.setSizePolicy(self,
@@ -50,13 +53,14 @@ class MyDynamicMplCanvas_Temp(MyMplCanvas):
         timer.start(100)
 
     def compute_initial_figure(self):
-        self.axes.plot([0, 1, 2, 3], [1, 2, 0, 4], 'r')
+        self.axes.plot(self.temp_axes.x(), self.temp_axes.y(), 'r')
 
     def update_figure(self):
         # Build a list of 4 random integers between 0 and 10 (both inclusive)
-        l = [random.randint(0, 10) for i in range(4)]
+        #l = [random.randint(0, 10) for i in range(4)]
         self.axes.cla()
-        self.axes.plot([0, 1, 2, 3], l, 'r')
+        self.axes.plot(self.temp_axes.x(), self.temp_axes.y(), 'r')
+        self.fig.autofmt_xdate(rotation=45)
         self.draw()
 
 
@@ -71,13 +75,14 @@ class MyDynamicMplCanvas_flow(MyMplCanvas):
         timer.start(100)
 
     def compute_initial_figure(self):
-        self.axes.plot([0, 1, 2, 3], [1, 2, 0, 4], 'r')
+        self.axes.plot(self.flow_axes.x(), self.flow_axes.y(), 'r')
 
     def update_figure(self):
         # Build a list of 4 random integers between 0 and 10 (both inclusive)
-        l = [random.randint(0, 10) for i in range(4)]
+        #l = [random.randint(0, 10) for i in range(4)]
         self.axes.cla()
-        self.axes.plot([0, 1, 2, 3], l, 'r')
+        self.axes.plot(self.flow_axes.x(), self.flow_axes.y(), 'r')
+        self.fig.autofmt_xdate(rotation=45)
         self.draw()
 
 
@@ -122,7 +127,7 @@ class Ui_MenuInicial(object):
 
         self.main_widget = QtWidgets.QWidget(self.graphicsView)
         l = QtWidgets.QVBoxLayout(self.main_widget)
-        dc = MyDynamicMplCanvas_flow(self.main_widget, width=6.1, height=4.5, dpi=100)
+        dc = MyDynamicMplCanvas_Temp(self.main_widget, width=6.1, height=4.5, dpi=100)
         l.addWidget(dc)
 
         self.retranslateUi_Temp(self.TempWindow)
@@ -172,7 +177,7 @@ class Ui_MenuInicial(object):
 
         self.main_widget = QtWidgets.QWidget(self.graphicsView)
         l = QtWidgets.QVBoxLayout(self.main_widget)
-        dc = MyDynamicMplCanvas_Temp(self.main_widget, width=6.1, height=4.5, dpi=100)
+        dc = MyDynamicMplCanvas_flow(self.main_widget, width=6.1, height=4.5, dpi=100)
         l.addWidget(dc)
 
         self.retranslateUi_Flow(self.FlowWindow)
@@ -240,6 +245,10 @@ class Ui_MenuInicial(object):
 if __name__ == "__main__":
     import sys
 
+    # Inicia leitura do sensor
+
+
+    # Inicia interface
     app = QtWidgets.QApplication(sys.argv)
     MenuInicial = QtWidgets.QMainWindow()
     ui = Ui_MenuInicial()
