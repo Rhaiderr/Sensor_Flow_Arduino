@@ -21,8 +21,6 @@ class MyMplCanvas(FigureCanvas):
     def __init__(self, parent=None, width=5, height=4, dpi=100):
         self.fig = Figure(figsize=(width, height), dpi=dpi, constrained_layout=False)
         self.axes = self.fig.add_subplot(1, 1, 1)
-        self.temp_axes = Temp.temp_axes()
-        self.flow_axes = Flow.flow_axes()
 
         self.compute_initial_figure()
 
@@ -49,13 +47,13 @@ class MyDynamicMplCanvas_Temp(MyMplCanvas):
         timer.start(100)
 
     def compute_initial_figure(self):
-        self.axes.plot(self.temp_axes.x(), self.temp_axes.y(), 'r')
+        self.axes.plot(Temp.temp_axes().x(), Temp.temp_axes().y(), 'r')
 
     def update_figure(self):
         # Build a list of 4 random integers between 0 and 10 (both inclusive)
         # l = [random.randint(0, 10) for i in range(4)]
         self.axes.cla()
-        self.axes.plot(self.temp_axes.x(), self.temp_axes.y(), 'r')
+        self.axes.plot(Temp.temp_axes().x(), Temp.temp_axes().y(), 'r')
         self.fig.autofmt_xdate(rotation=45)
         self.draw()
 
@@ -71,13 +69,13 @@ class MyDynamicMplCanvas_flow(MyMplCanvas):
         timer.start(100)
 
     def compute_initial_figure(self):
-        self.axes.plot(self.flow_axes.x(), self.flow_axes.y(), 'r')
+        self.axes.plot(Flow.flow_axes().x(), Flow.flow_axes().y(), 'r')
 
     def update_figure(self):
         # Build a list of 4 random integers between 0 and 10 (both inclusive)
         # l = [random.randint(0, 10) for i in range(4)]
         self.axes.cla()
-        self.axes.plot(self.flow_axes.x(), self.flow_axes.y(), 'r')
+        self.axes.plot(Flow.flow_axes().x(), Flow.flow_axes().y(), 'r')
         self.fig.autofmt_xdate(rotation=45)
         self.draw()
 
@@ -238,13 +236,21 @@ class Ui_MenuInicial(object):
         ui.setupUi_Temp(MenuInicial)
 
 
+def close_sensor():
+    """ Finaliza o programa SerialConnection parando de capturar valores do arduino"""
+    for child in psutil.Process(proce.pid).children(recursive=True):
+        child.kill()
+    proce.kill()
+
+
 if __name__ == "__main__":
     import sys
     import subprocess
     from ETL.SqlConnection import *
+    import psutil
 
     # Inicia leitura do sensor
-    subprocess.Popen(['g:', f'cd {dire()}', sys.executable, "ETL/SerialConnection.py"])
+    proce = subprocess.Popen([sys.executable, "ETL/SerialConnection.py"], shell=True, cwd=str(dire()))
 
     # Inicia interface
     app = QtWidgets.QApplication(sys.argv)
@@ -252,4 +258,8 @@ if __name__ == "__main__":
     ui = Ui_MenuInicial()
     ui.setupUi(MenuInicial)
     MenuInicial.show()
+
+    # Finaliza processo
+    app.lastWindowClosed.connect(close_sensor)
+
     sys.exit(app.exec_())
