@@ -3,10 +3,10 @@ import pandas as pd
 
 class temp_axes(object):
     def __init__(self):
-        self.df = pd.read_sql(sql='select * from grafico_temperatura order by dt_processamento desc limit 10', con=sql_conn())
+        self.df = pd.read_sql(sql='select * from grafico_temperatura order by dt_processamento desc limit 30', con=sql_conn())
 
     def x(self):
-        return list(self.df.dt_processamento)
+        return list(reversed(list(pd.to_datetime(self.df.dt_processamento).dt.strftime("%H:%M:%S"))))
 
     def y(self):
-        return list(self.df.sen_temp.array)
+        return list(reversed(list(self.df.sen_temp.array)))

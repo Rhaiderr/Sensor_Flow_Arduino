@@ -19,7 +19,7 @@ class MyMplCanvas(FigureCanvas):
     """ QWidget com configurações de gráfico. """
 
     def __init__(self, parent=None, width=5, height=4, dpi=100):
-        self.fig = Figure(figsize=(width, height), dpi=dpi, constrained_layout=False)
+        self.fig = Figure(figsize=(width, height), dpi=dpi, constrained_layout=False, tight_layout=True)
         self.axes = self.fig.add_subplot(1, 1, 1)
 
         self.compute_initial_figure()
@@ -121,7 +121,7 @@ class Ui_MenuInicial(object):
 
         self.main_widget = QtWidgets.QWidget(self.graphicsView)
         l = QtWidgets.QVBoxLayout(self.main_widget)
-        dc = MyDynamicMplCanvas_Temp(self.main_widget, width=6.1, height=4.5, dpi=100)
+        dc = MyDynamicMplCanvas_Temp(self.main_widget, width=6.2, height=4.7, dpi=100)
         l.addWidget(dc)
 
         self.retranslateUi_Temp(self.TempWindow)
@@ -171,7 +171,7 @@ class Ui_MenuInicial(object):
 
         self.main_widget = QtWidgets.QWidget(self.graphicsView)
         l = QtWidgets.QVBoxLayout(self.main_widget)
-        dc = MyDynamicMplCanvas_flow(self.main_widget, width=6.1, height=4.5, dpi=100)
+        dc = MyDynamicMplCanvas_flow(self.main_widget, width=6.2, height=4.7, dpi=100)
         l.addWidget(dc)
 
         self.retranslateUi_Flow(self.FlowWindow)
