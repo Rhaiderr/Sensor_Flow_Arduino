@@ -3,8 +3,10 @@ Perocesso de ETL que realiza a leitura constante dos dados recebidos via porta s
 """
 import os
 import sys
+
 file_dir = os.path.dirname('__file__')
 sys.path.append(file_dir)
+
 
 class ETL(object):
 
@@ -51,17 +53,11 @@ class ETL(object):
 
 
 if __name__ == "__main__":
-    # abspath = os.path.abspath("__file__")
-    # dname = os.path.dirname(abspath)
-    # os.chdir(dname)
-
-
     from serial import Serial
     import pandas as pd
     from datetime import datetime
     from Serial_Read.ReadLine import ReadLine
     from ETL.SqlConnection import *
-
 
     # Classe de gravação no banco de dados
     read = ETL(connection=sql_conn(), serial=Serial('COM6', 9600))
