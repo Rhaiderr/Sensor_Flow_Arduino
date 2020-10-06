@@ -47,16 +47,21 @@ class MyDynamicMplCanvas_Temp(MyMplCanvas):
         timer.start(1000)
 
     def compute_initial_figure(self):
-        self.axes.plot(Temp.temp_axes().x(), Temp.temp_axes().y(), 'r')
+        ax = Temp.temp_axes(ui.slide_value_temp())
+        x_axes = ax.x()
+        y_axes = ax.y()
+        self.axes.plot(x_axes, y_axes, 'r')
         self.fig.autofmt_xdate(rotation=45)
 
     def update_figure(self):
-        # Build a list of 4 random integers between 0 and 10 (both inclusive)
-        # l = [random.randint(0, 10) for i in range(4)]
+        ax = Temp.temp_axes(ui.slide_value_temp())
+        x_axes = ax.x()
+        y_axes = ax.y()
         self.axes.cla()
-        self.axes.plot(Temp.temp_axes().x(), Temp.temp_axes().y(), 'r')
+        self.axes.plot(x_axes, y_axes, 'r')
         self.fig.autofmt_xdate(rotation=45)
         self.draw()
+        ui.update_temp_axis(y_axes[-1])
 
 
 class MyDynamicMplCanvas_flow(MyMplCanvas):
@@ -70,16 +75,21 @@ class MyDynamicMplCanvas_flow(MyMplCanvas):
         timer.start(1000)
 
     def compute_initial_figure(self):
-        self.axes.plot(Flow.flow_axes().x(), Flow.flow_axes().y(), 'r')
+        ax = Flow.flow_axes(ui.slide_value_flow())
+        x_axes = ax.x()
+        y_axes = ax.y()
+        self.axes.plot(x_axes, y_axes, 'r')
         self.fig.autofmt_xdate(rotation=45)
 
     def update_figure(self):
-        # Build a list of 4 random integers between 0 and 10 (both inclusive)
-        # l = [random.randint(0, 10) for i in range(4)]
+        ax = Flow.flow_axes(ui.slide_value_flow())
+        x_axes = ax.x()
+        y_axes = ax.y()
         self.axes.cla()
-        self.axes.plot(Flow.flow_axes().x(), Flow.flow_axes().y(), 'r')
+        self.axes.plot(x_axes, y_axes, 'r')
         self.fig.autofmt_xdate(rotation=45)
         self.draw()
+        ui.update_flow_axis(y_axes[-1])
 
 
 class Ui_MenuInicial(object):
@@ -98,17 +108,18 @@ class Ui_MenuInicial(object):
         self.fluxo.setObjectName("fluxo")
         self.fluxo.clicked.connect(self.fl)
 
-        self.relatorio = QtWidgets.QPushButton(self.centralwidget)
-        self.relatorio.setGeometry(QtCore.QRect(680, 20, 91, 31))
-        self.relatorio.setObjectName("relatorio")
+        self.horizontalSliderTemp = QtWidgets.QSlider(self.centralwidget)
+        self.horizontalSliderTemp.setGeometry(QtCore.QRect(570, 20, 171, 22))
+        self.horizontalSliderTemp.setOrientation(QtCore.Qt.Horizontal)
+        self.horizontalSliderTemp.setObjectName("horizontalSlider")
 
         self.graphicsView = QtWidgets.QGraphicsView(self.centralwidget)
         self.graphicsView.setGeometry(QtCore.QRect(20, 80, 631, 471))
         self.graphicsView.setObjectName("graphicsView")
 
-        self.lcdNumber = QtWidgets.QLCDNumber(self.centralwidget)
-        self.lcdNumber.setGeometry(QtCore.QRect(690, 90, 64, 23))
-        self.lcdNumber.setObjectName("lcdNumber")
+        self.lcdNumberTemp = QtWidgets.QLCDNumber(self.centralwidget)
+        self.lcdNumberTemp.setGeometry(QtCore.QRect(690, 90, 64, 23))
+        self.lcdNumberTemp.setObjectName("lcdNumber")
 
         self.TempWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(self.TempWindow)
@@ -133,7 +144,6 @@ class Ui_MenuInicial(object):
         _translate = QtCore.QCoreApplication.translate
         TempWindow.setWindowTitle(_translate("TempWindow", "MainWindow"))
         self.fluxo.setText(_translate("TempWindow", "Fluxo"))
-        self.relatorio.setText(_translate("TempWindow", "Relatório"))
 
     def setupUi_Flow(self, FlowWindow):
         """ Tela de Fluxo """
@@ -149,17 +159,20 @@ class Ui_MenuInicial(object):
         self.temperatura.setObjectName("temperatura")
         self.temperatura.clicked.connect(self.temp)
 
-        self.relatorio = QtWidgets.QPushButton(self.centralwidget)
-        self.relatorio.setGeometry(QtCore.QRect(680, 20, 91, 31))
-        self.relatorio.setObjectName("relatorio")
+        self.horizontalSliderFlow = QtWidgets.QSlider(self.centralwidget)
+        self.horizontalSliderFlow.setGeometry(QtCore.QRect(570, 20, 171, 22))
+        self.horizontalSliderFlow.setOrientation(QtCore.Qt.Horizontal)
+        self.horizontalSliderFlow.setObjectName("horizontalSlider")
+        self.horizontalSliderFlow.setMaximum(100)
+        self.horizontalSliderFlow.setMinimum(10)
 
         self.graphicsView = QtWidgets.QGraphicsView(self.centralwidget)
         self.graphicsView.setGeometry(QtCore.QRect(20, 80, 631, 471))
         self.graphicsView.setObjectName("graphicsView")
 
-        self.lcdNumber = QtWidgets.QLCDNumber(self.centralwidget)
-        self.lcdNumber.setGeometry(QtCore.QRect(690, 90, 64, 23))
-        self.lcdNumber.setObjectName("lcdNumber")
+        self.lcdNumberFlow = QtWidgets.QLCDNumber(self.centralwidget)
+        self.lcdNumberFlow.setGeometry(QtCore.QRect(690, 90, 64, 23))
+        self.lcdNumberFlow.setObjectName("lcdNumber")
 
         self.FlowWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(self.FlowWindow)
@@ -236,6 +249,26 @@ class Ui_MenuInicial(object):
         """ Função que realiza a troca para tela de Temperatura"""
 
         ui.setupUi_Temp(MenuInicial)
+
+    def update_flow_axis(self, event):
+        """ Função que atualiza o display de FLuxo"""
+
+        self.lcdNumberFlow.display(event)
+
+    def update_temp_axis(self, event):
+        """ Função que atualiza o display de FLuxo"""
+
+        self.lcdNumberTemp.display(event)
+
+    def slide_value_flow(self):
+        """ Retorna valor atual do slider de FLuxo """
+
+        return self.horizontalSliderFlow.value()
+
+    def slide_value_temp(self):
+        """ Retorna valor atual do slider de FLuxo """
+
+        return self.horizontalSliderTemp.value()
 
 
 def close_sensor():
