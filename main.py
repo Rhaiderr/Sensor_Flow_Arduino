@@ -112,6 +112,8 @@ class Ui_MenuInicial(object):
         self.horizontalSliderTemp.setGeometry(QtCore.QRect(570, 20, 171, 22))
         self.horizontalSliderTemp.setOrientation(QtCore.Qt.Horizontal)
         self.horizontalSliderTemp.setObjectName("horizontalSlider")
+        self.horizontalSliderTemp.setMaximum(100)
+        self.horizontalSliderTemp.setMinimum(10)
 
         self.graphicsView = QtWidgets.QGraphicsView(self.centralwidget)
         self.graphicsView.setGeometry(QtCore.QRect(20, 80, 631, 471))
