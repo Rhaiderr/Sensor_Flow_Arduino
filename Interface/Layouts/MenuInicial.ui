@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>90</y>
+      <y>140</y>
       <width>131</width>
       <height>51</height>
      </rect>
@@ -31,26 +31,13 @@
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>30</y>
+      <y>40</y>
       <width>131</width>
       <height>51</height>
      </rect>
     </property>
     <property name="text">
      <string>Fluxo</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_3">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>150</y>
-      <width>131</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Relatório</string>
     </property>
    </widget>
   </widget>
