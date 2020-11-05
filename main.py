@@ -282,7 +282,7 @@ class Ui_MenuInicial(object):
         self.lcdNumberFlow.display(event)
 
     def update_temp_axis(self, event):
-        """ Função que atualiza o display de FLuxo"""
+        """ Função que atualiza o display de Temperatura"""
 
         self.lcdNumberTemp.display(event)
 
@@ -292,7 +292,7 @@ class Ui_MenuInicial(object):
         return self.horizontalSliderFlow.value()
 
     def slide_value_temp(self):
-        """ Retorna valor atual do slider de FLuxo """
+        """ Retorna valor atual do slider de Temperatura """
 
         return self.horizontalSliderTemp.value()
 
